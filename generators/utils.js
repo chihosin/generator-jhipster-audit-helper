@@ -3,7 +3,7 @@ const glob = require('glob');
 const TPL = 'template';
 
 const changeset = (changelogDate, entityTableName) =>
-  `
+    `
     <!-- Added the entity audit columns -->
     <changeSet id="${changelogDate}-audit-1" author="jhipster-entity-audit">
         <addColumn tableName="${entityTableName}">
@@ -19,72 +19,72 @@ const changeset = (changelogDate, entityTableName) =>
     </changeSet>`;
 
 const copyFiles = (gen, files) => {
-  files.forEach((file) => {
-    gen.copyTemplate(
-      file.from,
-      file.to,
-      file.type ? file.type : TPL,
-      gen,
-      file.interpolate
-        ? {
-          interpolate: file.interpolate
-        }
-        : undefined
-    );
-  });
+    files.forEach((file) => {
+        gen.copyTemplate(
+            file.from,
+            file.to,
+            file.type ? file.type : TPL,
+            gen,
+            file.interpolate
+                ? {
+                    interpolate: file.interpolate
+                }
+                : undefined
+        );
+    });
 };
 
 const updateEntityAudit = function (
-  entityName,
-  entityData,
-  javaDir,
-  resourceDir,
-  updateIndex
+    entityName,
+    entityData,
+    javaDir,
+    resourceDir,
+    updateIndex
 ) {
-  // extend entity with AbstractAuditingEntity
-  if (
-    !this.fs
-      .read(`${javaDir}domain/${entityName}.java`, {
-        defaults: ''
-      })
-      .includes('extends AbstractAuditingEntity')
-  ) {
-    this.replaceContent(
-      `${javaDir}domain/${entityName}.java`,
-      `public class ${entityName}`,
-      `public class ${entityName} extends AbstractAuditingEntity`
-    );
-  }
-  // extend DTO with AbstractAuditingDTO
-  if (entityData.dto === 'mapstruct') {
+    // extend entity with AbstractAuditingEntity
     if (
-      !this.fs
-        .read(`${javaDir}service/dto/${entityName}DTO.java`, {
-          defaults: ''
-        })
-        .includes('extends AbstractAuditingDTO')
+        !this.fs
+            .read(`${javaDir}domain/${entityName}.java`, {
+                defaults: ''
+            })
+            .includes('extends AbstractAuditingEntity')
     ) {
-      this.replaceContent(
-        `${javaDir}service/dto/${entityName}DTO.java`,
-        `public class ${entityName}DTO`,
-        `public class ${entityName}DTO extends AbstractAuditingDTO`
-      );
+        this.replaceContent(
+            `${javaDir}domain/${entityName}.java`,
+            `public class ${entityName}`,
+            `public class ${entityName} extends AbstractAuditingEntity`
+        );
     }
-  }
+    // extend DTO with AbstractAuditingDTO
+    if (entityData.dto === 'mapstruct') {
+        if (
+            !this.fs
+                .read(`${javaDir}service/dto/${entityName}DTO.java`, {
+                    defaults: ''
+                })
+                .includes('extends AbstractAuditingDTO')
+        ) {
+            this.replaceContent(
+                `${javaDir}service/dto/${entityName}DTO.java`,
+                `public class ${entityName}DTO`,
+                `public class ${entityName}DTO extends AbstractAuditingDTO`
+            );
+        }
+    }
 
-  // update liquibase changeset
-  const file = glob.sync(`${resourceDir}/config/liquibase/changelog/*_added_entity_${entityName}.xml`)[0];
-  const entityTableName = entityData.entityTableName
-    ? entityData.entityTableName
-    : entityName;
-  this.addChangesetToLiquibaseEntityChangelog(
-    file,
-    changeset(this.changelogDate, this.getTableName(entityTableName))
-  );
+    // update liquibase changeset
+    const file = glob.sync(`${resourceDir}/config/liquibase/changelog/*_added_entity_${entityName}.xml`)[0];
+    const entityTableName = entityData.entityTableName
+        ? entityData.entityTableName
+        : entityName;
+    this.addChangesetToLiquibaseEntityChangelog(
+        file,
+        changeset(this.changelogDate, this.getTableName(entityTableName))
+    );
 };
 
 module.exports = {
-  changeset,
-  copyFiles,
-  updateEntityAudit
+    changeset,
+    copyFiles,
+    updateEntityAudit
 };

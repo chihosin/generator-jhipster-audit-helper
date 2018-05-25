@@ -17,7 +17,9 @@
     "email": "chihosin@icloud.com",
     "url": "https://github.com/ChihoSin"
   },
-  "files": ["generators"],
+  "files": [
+    "generators"
+  ],
   "main": "generators/app/index.js",
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   "dependencies": {
     "chalk": "2.4.1",
     "generator-jhipster": "^5.0.0-beta.1",
+    "glob": "^7.1.2",
     "jhipster-core": "^2.0.3",
     "lodash": "^4.17.10",
     "mkdirp": "0.5.1",
@@ -57,13 +60,12 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "release": "git push && git push --tags && npm publish",
-    "release:patch":
-      "npm version patch -a -m \"Update to %s\" && npm run release",
-    "release:minor":
-      "npm version minor -a -m \"Update to %s\" && npm run release",
-    "release:major":
-      "npm version major -a -m \"Update to %s\" && npm run release",
+    "release:patch": "npm version patch -a -m \"Update to %s\" && npm run release",
+    "release:minor": "npm version minor -a -m \"Update to %s\" && npm run release",
+    "release:major": "npm version major -a -m \"Update to %s\" && npm run release",
     "test": "mocha test/*"
   },
-  "pre-commit": ["lint"]
+  "pre-commit": [
+    "lint"
+  ]
 }

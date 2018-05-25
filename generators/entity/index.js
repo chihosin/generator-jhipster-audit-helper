@@ -12,7 +12,7 @@ module.exports = class extends BaseGenerator {
                 this.entityConfig = this.options.entityConfig;
                 this.jhipsterAppConfig = this.getJhipsterAppConfig();
                 if (!this.jhipsterAppConfig) {
-                    this.error("Can't read .yo-rc.json");
+                    this.error('Can\'t read .yo-rc.json');
                 }
             },
 
@@ -30,55 +30,19 @@ module.exports = class extends BaseGenerator {
                     return;
                 }
                 this.log('');
-                this.log(
-                    `${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue(
-                        '╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ '
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ '
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ '
-                    )}`
-                );
-                this.log(
-                    chalk.white(
-                        `Running ${chalk.bold.blue(
-                            'JHipster Audit Helper'
-                        )} Generator! ${chalk.yellow(
-                            `v${packagejs.version}\n`
-                        )}`
-                    )
-                );
+                this.log(`${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue('╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ ')}`);
+                this.log(`${chalk.blue('██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ ')}`);
+                this.log(`${chalk.blue('██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗')}`);
+                this.log(`${chalk.blue('██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║')}`);
+                this.log(`${chalk.blue('██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝')}`);
+                this.log(`${chalk.blue('╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ ')}`);
+                this.log(chalk.white(`Running ${chalk.bold.blue('JHipster Audit Helper')} Generator! ${chalk.yellow(`v${packagejs.version}\n`)}`));
             },
 
             validate() {
                 // this shouldnt be run directly
                 if (!this.entityConfig) {
-                    this.env.error(
-                        `${chalk.red.bold(
-                            'ERROR!'
-                        )} This sub generator should be used only from JHipster and cannot be run directly...\n`
-                    );
+                    this.env.error(`${chalk.red.bold('ERROR!')} This sub generator should be used only from JHipster and cannot be run directly...\n`);
                 }
             },
 
@@ -106,7 +70,7 @@ module.exports = class extends BaseGenerator {
             },
         ];
 
-        this.prompt(prompts).then(props => {
+        this.prompt(prompts).then((props) => {
             this.props = props;
             // To access props later use this.props.someOption;
             this.enableAudit = props.enableAudit;
@@ -145,11 +109,7 @@ module.exports = class extends BaseGenerator {
                 this.javaTemplateDir = 'src/main/java/package';
 
                 if (this.entityConfig.entityClass) {
-                    this.log(
-                        `\n${chalk.bold.green(
-                            "I'm updating the entity for audit "
-                        )}${chalk.bold.yellow(this.entityConfig.entityClass)}`
-                    );
+                    this.log(`\n${chalk.bold.green('I\'m updating the entity for audit ')}${chalk.bold.yellow(this.entityConfig.entityClass)}`);
 
                     const entityName = this.entityConfig.entityClass;
                     const jsonObj = this.entityConfig.data;

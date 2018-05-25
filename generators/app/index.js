@@ -15,58 +15,22 @@ module.exports = class extends BaseGenerator {
             readConfig() {
                 this.jhipsterAppConfig = this.getJhipsterAppConfig();
                 if (!this.jhipsterAppConfig) {
-                    this.error("Can't read .yo-rc.json");
+                    this.error('Can\'t read .yo-rc.json');
                 }
             },
             displayLogo() {
                 this.log('');
-                this.log(
-                    `${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue(
-                        '╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ '
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ '
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝'
-                    )}`
-                );
-                this.log(
-                    `${chalk.blue(
-                        '╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ '
-                    )}`
-                );
-                this.log(
-                    chalk.white(
-                        `Running ${chalk.bold.blue(
-                            'JHipster Audit Helper'
-                        )} Generator! ${chalk.yellow(
-                            `v${packagejs.version}\n`
-                        )}`
-                    )
-                );
+                this.log(`${chalk.blue('██████╗ ')}${chalk.red('██')}${chalk.blue('╗ ██████╗ ██████╗ ██╗   ██╗ ██████╗ ')}`);
+                this.log(`${chalk.blue('██╔══██╗██║██╔════╝ ██╔══██╗██║   ██║██╔════╝ ')}`);
+                this.log(`${chalk.blue('██████╔╝██║██║  ███╗██████╔╝██║   ██║██║  ███╗')}`);
+                this.log(`${chalk.blue('██╔══██╗██║██║   ██║██╔══██╗██║   ██║██║   ██║')}`);
+                this.log(`${chalk.blue('██████╔╝██║╚██████╔╝██████╔╝╚██████╔╝╚██████╔╝')}`);
+                this.log(`${chalk.blue('╚═════╝ ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝  ╚═════╝ ')}`);
+                this.log(chalk.white(`Running ${chalk.bold.blue('JHipster Audit Helper')} Generator! ${chalk.yellow(`v${packagejs.version}\n`)}`));
             },
             checkServerFramework() {
                 if (this.jhipsterAppConfig.skipServer) {
-                    this.env.error(
-                        `${chalk.red.bold(
-                            'ERROR!'
-                        )} This module works only for server...`
-                    );
+                    this.env.error(`${chalk.red.bold('ERROR!')} This module works only for server...`);
                 }
             },
             checkJHVersion() {
@@ -79,19 +43,13 @@ module.exports = class extends BaseGenerator {
                         minimumJhipsterVersion
                     )
                 ) {
-                    this.warning(
-                        `\nYour generated project used an old JHipster version (${currentJhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`
-                    );
+                    this.warning(`\nYour generated project used an old JHipster version (${currentJhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
                 }
             },
 
             checkDBType() {
                 if (this.jhipsterAppConfig.databaseType !== 'sql') {
-                    this.env.error(
-                        `${chalk.red.bold(
-                            'ERROR!'
-                        )} I support only SQL databases...\n`
-                    );
+                    this.env.error(`${chalk.red.bold('ERROR!')} I support only SQL databases...\n`);
                 }
             },
 
@@ -102,14 +60,10 @@ module.exports = class extends BaseGenerator {
                 try {
                     existingEntityNames = fs.readdirSync('.jhipster');
                 } catch (e) {
-                    this.log(
-                        `${chalk.red.bold(
-                            'ERROR!'
-                        )} Could not read entities, you might not have generated any entities yet. I will continue to install audit files, entities will not be updated...\n`
-                    );
+                    this.log(`${chalk.red.bold('ERROR!')} Could not read entities, you might not have generated any entities yet. I will continue to install audit files, entities will not be updated...\n`);
                 }
 
-                existingEntityNames.forEach(entry => {
+                existingEntityNames.forEach((entry) => {
                     if (entry.indexOf('.json') !== -1) {
                         const entityName = entry.replace('.json', '');
                         existingEntities.push(entityName);
@@ -154,7 +108,7 @@ module.exports = class extends BaseGenerator {
                 default: 'none',
             },
         ];
-        this.prompt(prompts).then(props => {
+        this.prompt(prompts).then((props) => {
             this.props = props;
             this.updateType = props.updateType;
             this.auditPage = props.auditPage;
@@ -184,15 +138,11 @@ module.exports = class extends BaseGenerator {
                 this.changelogDate = this.dateFormatForLiquibase();
                 this.jhiPrefix = this.jhipsterAppConfig.jhiPrefix;
                 // if changelogDate for entity audit already exists then use this existing changelogDate
-                const liguibaseFileName = glob.sync(
-                    `${
-                        this.jhipsterAppConfig.resourceDir
-                    }/config/liquibase/changelog/*_added_entity_EntityAuditEvent.xml`
-                )[0];
+                const liguibaseFileName = glob.sync(`${
+                    this.jhipsterAppConfig.resourceDir
+                }/config/liquibase/changelog/*_added_entity_EntityAuditEvent.xml`)[0];
                 if (liguibaseFileName) {
-                    this.changelogDate = new RegExp(
-                        '/config/liquibase/changelog/(.*)_added_entity_EntityAuditEvent.xml'
-                    ).exec(liguibaseFileName)[1];
+                    this.changelogDate = new RegExp('/config/liquibase/changelog/(.*)_added_entity_EntityAuditEvent.xml').exec(liguibaseFileName)[1];
                 }
 
                 // use constants from generator-constants.js
@@ -276,9 +226,7 @@ module.exports = class extends BaseGenerator {
                     },
                 ];
                 genUtils.copyFiles(this, files);
-                this.addChangelogToLiquibase(
-                    `${this.changelogDate}_added_entity_EntityAuditEvent`
-                );
+                this.addChangelogToLiquibase(`${this.changelogDate}_added_entity_EntityAuditEvent`);
 
                 // add the new Listener to the 'AbstractAuditingEntity' class and add import
                 if (
@@ -332,19 +280,11 @@ module.exports = class extends BaseGenerator {
                     this.auditedEntities.length > 0 &&
                     this.auditedEntities !== 'none'
                 ) {
-                    this.log(
-                        `\n${chalk.bold.green(
-                            "I'm updating selected entities "
-                        )}${chalk.bold.yellow(this.auditedEntities)}`
-                    );
-                    this.log(
-                        `\n${chalk.bold.yellow(
-                            'Make sure these classes does not extend any other class to avoid any errors during compilation.'
-                        )}`
-                    );
+                    this.log(`\n${chalk.bold.green('I\'m updating selected entities ')}${chalk.bold.yellow(this.auditedEntities)}`);
+                    this.log(`\n${chalk.bold.yellow('Make sure these classes does not extend any other class to avoid any errors during compilation.')}`);
                     let jsonObj = null;
 
-                    this.auditedEntities.forEach(entityName => {
+                    this.auditedEntities.forEach((entityName) => {
                         const entityFile = `.jhipster/${entityName}.json`;
                         jsonObj = this.fs.readJSON(entityFile);
 
@@ -380,21 +320,13 @@ module.exports = class extends BaseGenerator {
                         'Add support for entity audit'
                     );
                 } catch (err) {
-                    this.log(
-                        `${chalk.red.bold(
-                            'WARN!'
-                        )} Could not register as a jhipster post entity creation hook...\n`
-                    );
+                    this.log(`${chalk.red.bold('WARN!')} Could not register as a jhipster post entity creation hook...\n`);
                 }
             },
         };
     }
 
     end() {
-        this.log(
-            `\n${chalk.bold.green(
-                'Auditing enabled for entities, you will have an option to enable audit while creating new entities as well'
-            )}`
-        );
+        this.log(`\n${chalk.bold.green('Auditing enabled for entities, you will have an option to enable audit while creating new entities as well')}`);
     }
 };
