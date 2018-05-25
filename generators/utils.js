@@ -5,7 +5,7 @@ const TPL = 'template';
 const changeset = (changelogDate, entityTableName) =>
     `
     <!-- Added the entity audit columns -->
-    <changeSet id="${changelogDate}-audit-1" author="jhipster-entity-audit">
+    <changeSet id="${changelogDate}-audit-1" author="jhipster-audit-helper">
         <addColumn tableName="${entityTableName}">
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
