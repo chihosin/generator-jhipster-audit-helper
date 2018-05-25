@@ -53,7 +53,7 @@ module.exports = class extends BaseGenerator {
                 this.log(
                     chalk.white(
                         `Running ${chalk.bold.blue(
-                            'JHipster VMware Clarity'
+                            'JHipster Audit Helper'
                         )} Generator! ${chalk.yellow(
                             `v${packagejs.version}\n`
                         )}`
@@ -334,7 +334,7 @@ module.exports = class extends BaseGenerator {
                 ) {
                     this.log(
                         `\n${chalk.bold.green(
-                            "I'm Updating selected entities "
+                            "I'm updating selected entities "
                         )}${chalk.bold.yellow(this.auditedEntities)}`
                     );
                     this.log(

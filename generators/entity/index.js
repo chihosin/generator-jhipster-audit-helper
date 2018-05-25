@@ -63,7 +63,7 @@ module.exports = class extends BaseGenerator {
                 this.log(
                     chalk.white(
                         `Running ${chalk.bold.blue(
-                            'JHipster Feign Client'
+                            'JHipster Audit Helper'
                         )} Generator! ${chalk.yellow(
                             `v${packagejs.version}\n`
                         )}`
@@ -101,7 +101,7 @@ module.exports = class extends BaseGenerator {
             {
                 type: 'confirm',
                 name: 'enableAudit',
-                message: `Do you want to enable audit for this entity(${entityName})?`,
+                message: `Do you want to enable audit for this entity (${entityName})?`,
                 default: true,
             },
         ];
